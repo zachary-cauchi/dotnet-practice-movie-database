@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Movies.Contracts": {
+      "commandName": "Project"
+    },
+    "Movie.Server": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\zachc\\proj\\dotnet-practice-movie-database\\Movies.Server\\Program.cs"
+    }
+  }
+}

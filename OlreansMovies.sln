@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{C5911799
 		app-info.json = app-info.json
 		ASSIGNMENT.md = ASSIGNMENT.md
 		Directory.Build.props = Directory.Build.props
+		Notes.md = Notes.md
 		NuGet.Config = NuGet.Config
 		readme.md = readme.md
 	EndProjectSection
