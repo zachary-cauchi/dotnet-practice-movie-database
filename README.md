@@ -31,3 +31,16 @@ A practice repository which creates a movie metadata server.
   - [ ] Create a new movie that can be retrieved in the movies list
 - [ ] **Update Movie**
   - [ ] Update movies data.
+
+## Tasks Stage 2
+
+- [ ] List
+
+## Tasks Final Stage
+
+- [ ] Prepare README
+  - [ ] Add relavant information about feature set.
+  - [ ] Instructions for deployment.
+  - [ ] Instructions for building.
+  - [ ] Instructions for testing.
+- [ ] Create basic app for using the api.
