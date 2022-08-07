@@ -39,5 +39,29 @@ namespace Movies.Server.Controllers
 				movie.Length,
 				movie.Img
 			).ConfigureAwait(false);
+
+		[HttpPost]
+		public async Task SetMany([FromBody] List<Movie> movies)
+		{
+			List<Task> tasks = new List<Task>();
+
+			// Fan out and add all the movie grains.
+			foreach(var movie in movies)
+			{
+				tasks.Add(_client.Set
+				(
+					movie.Id,
+					movie.Key,
+					movie.Name,
+					movie.Description,
+					movie.Genres,
+					movie.Rate,
+					movie.Length,
+					movie.Img
+				));
+			}
+
+			await Task.WhenAll(tasks);
+		}
 	}
 }
