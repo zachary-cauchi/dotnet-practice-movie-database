@@ -27,20 +27,17 @@ namespace Movies.Server.Controllers
 		[HttpPost("{id}")]
 		public async Task Set(
 			[FromRoute] string id,
-			[FromForm] string key,
-			[FromForm] string name,
-			[FromForm] string description,
-			[FromForm] string genres,
-			[FromForm] string rate,
-			[FromForm] string length,
-			[FromForm] string img
-		)
-		{
-			List<string> separateGenres = new();
-
-			separateGenres.AddRange(genres.Split(','));
-
-			await _client.Set(id, key, name, description, separateGenres, rate, length, img).ConfigureAwait(false);
-		}
+			[FromBody] Movie movie
+		) => await _client.Set
+			(
+				id,
+				movie.Key,
+				movie.Name,
+				movie.Description,
+				movie.Genres,
+				movie.Rate,
+				movie.Length,
+				movie.Img
+			).ConfigureAwait(false);
 	}
 }
