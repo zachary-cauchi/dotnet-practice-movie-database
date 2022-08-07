@@ -13,8 +13,8 @@ A practice repository which creates a movie metadata server.
   - [ ] Filter by Genre
 - [ ] **Movie detail**
   - [ ] Display selected movie detail information
-- [ ] **Create Movie**
-  - [ ] Create a new movie that can be retrieved in the movies list
+- [x] **Create Movie**
+  - [x] Create a new movie that can be retrieved in the movies list
 - [ ] **Update Movie**
   - [ ] Update movies data.
 
@@ -34,7 +34,11 @@ A practice repository which creates a movie metadata server.
 
 ## Tasks Stage 2
 
-- [ ] List
+- [x] Introduce non-persistent storage solution.
+- [ ] Harden all endpoints through proper data validation.
+- [ ] Unit-test endpoints.
+- [ ] Create Dockerfile for deploying to a dockerised env.
+  - [ ] Read env data without hard-coding it.
 
 ## Tasks Final Stage
 

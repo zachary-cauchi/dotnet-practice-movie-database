@@ -48,6 +48,16 @@ To summarise:
 non-persistent primary store   persistent secondary store
 In-memory                   -> Azure Table Store
 
+## Limitation of Azure Tables
+
+Azure Tables has a limit to the amount of data it can store in a single row (1MB of binary data).
+This is unlikely to be an issue at this time since the amount of data per-grain is small (only text-based metadata with no binary data).
+
 ## Fixing genre param for movie creation
 
 Currently, the genre is expected to be a comma-separated list. This needs to be changed to an array/list.
+Fixed this by changing the parameters list to expect a single `[FromBody] Movie movie`. All the parameters in the movie are consumed, except for the id.
+
+## Added bulk-add movies endpoint
+
+Main purpose is to help seed the grain storage with movie data. Works by fanning out multiple grain-set requests and awaits them all before returning.
