@@ -97,6 +97,7 @@ namespace Movies.Server
 							.AddApplicationPart(typeof(SampleGrain).Assembly).WithReferences()
 						)
 						.AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()
+						.UseDashboard(options => { })
 					;
 
 				})
