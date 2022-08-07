@@ -19,7 +19,7 @@ The application has the following functionality:
 - **Create Movie**
   - Create a new movie that can be retrieved in the movies list
 - **Update Movie**
-  - Update movies data.  
+  - Update movies data.
 
 ### Technologies required
 

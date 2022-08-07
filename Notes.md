@@ -61,3 +61,21 @@ Fixed this by changing the parameters list to expect a single `[FromBody] Movie 
 ## Added bulk-add movies endpoint
 
 Main purpose is to help seed the grain storage with movie data. Works by fanning out multiple grain-set requests and awaits them all before returning.
+
+## Enabling Transactional behaviour for azure tables
+
+To enable it, the maximum throughput of the account needs to be increased to at least 1600RU/s.
+While it may not be a problem in most scenarios, it does exceed the free tier amount.
+
+## Added OrleansDashboard
+
+Added OrleansDashboard for metrics on the MovieSilo. For development only and should be removed for production.
+
+## Stuck with Movie searching
+
+Realised I hit a wall with how I stored the movies as grains; because grains can't be searched or filtered, I cannot fulfil the api requirements using only grains.
+This will require storing the movies in a separate storage location (such as another AzureTable) where the data is stored raw and can be queried.
+Movies searched for will then be cached in grains
+New grains may be needed for the following:
+- Top5RatedMovies - Store the ids of the top 5 rated movies in descending order.
+- GenreFilterMovies - Store the ids of all (or as many as possible) movies which match that genre.
