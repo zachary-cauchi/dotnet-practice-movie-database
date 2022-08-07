@@ -2,19 +2,32 @@
 
 using Movies.Contracts.Movies;
 using Orleans;
+using Orleans.Providers;
+using Orleans.Runtime;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Movies.Grains
 {
-	public class MovieGrain : Grain<Movie>, IMovieGrain
+	[StorageProvider(ProviderName = "moviesDatabase")]
+	public class MovieGrain : Grain, IMovieGrain
 	{
-		public Task<Movie> Get()
-			=> Task.FromResult(State);
 
-		public Task Set(string key, string name, string description, List<string> genres, string rate, string length, string img)
+		private readonly IPersistentState<Movie> _movie;
+
+		public MovieGrain(
+			[PersistentState("movie", "moviesDatabase")] IPersistentState<Movie> movie
+		)
 		{
-			State = new Movie()
+			_movie = movie;
+		}
+
+		public Task<Movie> Get()
+			=> Task.FromResult(_movie.State);
+
+		public async Task Set(string key, string name, string description, List<string> genres, string rate, string length, string img)
+		{
+			_movie.State = new Movie()
 			{
 				Id = this.GetPrimaryKeyString(),
 				Key = key,
@@ -26,7 +39,7 @@ namespace Movies.Grains
 				Img = img
 			};
 
-			return Task.CompletedTask;
+			await _movie.WriteStateAsync();
 		}
 	}
 }

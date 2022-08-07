@@ -51,6 +51,7 @@ namespace Movies.Server
 						.AddJsonFile($"appsettings.{shortEnvName}.json", optional: true)
 						.AddJsonFile("app-info.json")
 						.AddEnvironmentVariables()
+						.AddUserSecrets<Program>()
 						.AddCommandLine(args);
 
 					appInfo = new AppInfo(cfg.Build());
@@ -63,6 +64,7 @@ namespace Movies.Server
 						.AddJsonFile($"appsettings.{shortEnvName}.json", optional: true)
 						.AddJsonFile("app-info.json")
 						.AddEnvironmentVariables()
+
 						.AddCommandLine(args);
 				})
 				.UseSerilog((ctx, loggerConfig) =>
@@ -77,6 +79,8 @@ namespace Movies.Server
 				})
 				.UseOrleans((ctx, builder) =>
 				{
+					StorageProviderType secondaryType = ctx.Configuration.GetValue<StorageProviderType>("orleans:storageProviderType", StorageProviderType.Memory);
+
 					builder
 						.UseAppConfiguration(new AppSiloBuilderContext
 						{
@@ -85,9 +89,10 @@ namespace Movies.Server
 							SiloOptions = new AppSiloOptions
 							{
 								SiloPort = GetAvailablePort(11111, 12000),
-								GatewayPort = 30001
+								GatewayPort = ctx.Configuration.GetValue<int>("orleans:gatewayPort", 30001)
 							}
 						})
+						 .UseStorage("moviesDatabase", appInfo, ctx, secondaryType, "movies")
 						.ConfigureApplicationParts(parts => parts
 							.AddApplicationPart(typeof(SampleGrain).Assembly).WithReferences()
 						)

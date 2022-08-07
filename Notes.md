@@ -22,3 +22,32 @@ Controller (API Request) -> Grain Client (Grain get/set) -> Grain Factory (Creat
 Now with basic Movie model support, we need to add persistence to allow loading of grains at startup instead of using non-persistent memory storage.
 
 Likely candidate is an SQL database with ADO.NET as a db provider for Orleans.
+
+Dug into code and best way of doing it might be to modify the appSettings json or similar program. App settings are loaded from Program.cs.
+Silo persistence is configured in SiloBuilderExtensions.cs.
+
+### Storage provider considerations
+
+First attempted setting up a local hosted mssql database, but decided against it due to the initial setup required.
+
+Moved to Azure Table setup, managed to establish connection, now need to configure persistence of the movie grains.
+
+### Legacy grain state persistence
+
+According to the [Grain Persistence](https://dotnet.github.io/orleans/docs/grains/grain_persistence/index.html#recommendations) documentation, persistence defined through `Grain<T>` is considered _legacy_.
+Switched over to using the newer method of persistence by defining `private readonly IPersistentState<Movie> _movie;` as the grains movie state.
+
+## Grain persistence successful!
+
+State-writing is now working as intended; while grain state is stored in-memory, calling `await _state.WriteStateAsync()` causes it to be persisted to all persistence providers (like Azure Tables).
+Data is then pulled from the persistence providers on startup and once again stored in-memory.
+Connection strings are also stored in user-secrets for security.
+
+To summarise:
+
+non-persistent primary store   persistent secondary store
+In-memory                   -> Azure Table Store
+
+## Fixing genre param for movie creation
+
+Currently, the genre is expected to be a comma-separated list. This needs to be changed to an array/list.

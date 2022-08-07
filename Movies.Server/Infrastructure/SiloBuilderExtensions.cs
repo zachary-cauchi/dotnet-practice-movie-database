@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Movies.Core;
 using Orleans.Configuration;
 using Orleans.Hosting;
@@ -11,7 +12,9 @@ namespace Movies.Server.Infrastructure
 {
 	public enum StorageProviderType
 	{
-		Memory
+		Memory,
+		SqlDb,
+		AzureTable
 	}
 
 	[DebuggerDisplay("{DebuggerDisplay,nq}")]
@@ -76,7 +79,7 @@ namespace Movies.Server.Infrastructure
 				;
 		}
 
-		public static ISiloBuilder UseStorage(this ISiloBuilder siloBuilder, string storeProviderName, IAppInfo appInfo, StorageProviderType? storageProvider = null, string storeName = null)
+		public static ISiloBuilder UseStorage(this ISiloBuilder siloBuilder, string storeProviderName, IAppInfo appInfo, HostBuilderContext context, StorageProviderType? storageProvider = null, string storeName = null)
 		{
 			storeName = storeName.IfNullOrEmptyReturn(storeProviderName);
 			storageProvider ??= _defaultProviderType;
@@ -85,6 +88,21 @@ namespace Movies.Server.Infrastructure
 			{
 				case StorageProviderType.Memory:
 					siloBuilder.AddMemoryGrainStorage(storeProviderName);
+					break;
+				case StorageProviderType.AzureTable:
+					string tableConnString = context.Configuration.GetValue<string>("orleans:azureTable:connectionString");
+
+					if (string.IsNullOrEmpty(tableConnString))
+					{
+						throw new ArgumentException("An AzureTable storage provider is set, but no connection string was found. Ensure that a connection string is set in 'orleans:azureTable:connectionString'");
+					}
+
+					siloBuilder.AddAzureTableGrainStorage(storeProviderName, options =>
+					{
+						options.UseJson = true;
+						options.ConfigureTableServiceClient(tableConnString);
+					});
+
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(storageProvider), $"Storage provider '{storageProvider}' is not supported.");

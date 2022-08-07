@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <UserSecretsId>bfc15ec9-e803-46ec-94ff-50daccd69b47</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,6 +33,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="3.6.3" />
+    <PackageReference Include="Microsoft.Orleans.Persistence.AzureStorage" Version="3.6.3" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="3.6.3" />
     <PackageReference Include="Serilog" Version="2.11.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
