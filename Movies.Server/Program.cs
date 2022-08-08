@@ -51,7 +51,7 @@ namespace Movies.Server
 						.AddJsonFile($"appsettings.{shortEnvName}.json", optional: true)
 						.AddJsonFile("app-info.json")
 						.AddEnvironmentVariables()
-						.AddUserSecrets<Program>()
+						.AddUserSecrets<Program>(optional: true)
 						.AddCommandLine(args);
 
 					appInfo = new AppInfo(cfg.Build());

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movies.Contracts.Movies;
+using Movies.Server.Services;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,60 +10,28 @@ namespace Movies.Server.Controllers
 	[Route("api/[controller]")]
 	public class MoviesController : Controller
 	{
-		private readonly IMovieGrainClient _client;
+		private readonly MoviesService _moviesService;
 
 		public MoviesController(
-			IMovieGrainClient client
+			MoviesService moviesService
 		)
 		{
-			_client = client;
+			_moviesService = moviesService;
 		}
 
 		[HttpGet("{id}")]
-		public async Task<Movie> Get([FromRoute] string id)
-		{
-			var result = await _client.Get(id).ConfigureAwait(false);
-			return result;
-		}
+		public async Task<Movie> Get([FromRoute] string id) =>
+			await _moviesService.Get(id).ConfigureAwait(false);
 
 		[HttpPost("{id}")]
 		public async Task Set(
 			[FromRoute] string id,
 			[FromBody] Movie movie
-		) => await _client.Set
-			(
-				id,
-				movie.Key,
-				movie.Name,
-				movie.Description,
-				movie.Genres,
-				movie.Rate,
-				movie.Length,
-				movie.Img
-			).ConfigureAwait(false);
+		) =>
+			await _moviesService.Set(id, movie);
 
 		[HttpPost]
-		public async Task SetMany([FromBody] List<Movie> movies)
-		{
-			List<Task> tasks = new List<Task>();
-
-			// Fan out and add all the movie grains.
-			foreach(var movie in movies)
-			{
-				tasks.Add(_client.Set
-				(
-					movie.Id,
-					movie.Key,
-					movie.Name,
-					movie.Description,
-					movie.Genres,
-					movie.Rate,
-					movie.Length,
-					movie.Img
-				));
-			}
-
-			await Task.WhenAll(tasks);
-		}
+		public async Task SetMany([FromBody] List<Movie> movies) =>
+			await _moviesService.SetMany(movies);
 	}
 }

@@ -79,3 +79,7 @@ Movies searched for will then be cached in grains
 New grains may be needed for the following:
 - Top5RatedMovies - Store the ids of the top 5 rated movies in descending order.
 - GenreFilterMovies - Store the ids of all (or as many as possible) movies which match that genre.
+
+## Added MoviesService
+
+Added Service layer for handling operations on movies. This should prepare the server for both grains and table management.

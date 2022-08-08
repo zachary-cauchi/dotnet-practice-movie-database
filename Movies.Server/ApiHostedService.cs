@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Movies.Core;
 using Movies.Core.Hosting;
+using Movies.Server.Services;
 using Orleans;
 using Serilog;
 using System.Diagnostics;
@@ -56,6 +57,7 @@ namespace Movies.Server
 					services.AddSingleton(appInfo);
 					services.AddSingleton(client);
 					services.AddSingleton(grainFactory);
+					services.AddSingleton<MoviesService>();
 				})
 				.UseStartup<ApiStartup>()
 				.UseUrls($"http://*:{options.Value.Port}")

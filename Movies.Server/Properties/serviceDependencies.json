@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "cosmosdb1": {
+      "type": "cosmosdb",
+      "connectionId": "orleans:azureTable:connectionString",
+      "dynamicId": null
+    }
+  }
+}

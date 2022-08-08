@@ -2,6 +2,7 @@
 using GraphQL.Types;
 using Movies.Contracts.Movies;
 using Movies.Server.Gql.Types;
+using Movies.Server.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Movies.Server.Gql.App
 	{
 		public AppGraphMutation
 		(
-			IMovieGrainClient movieClient
+			MoviesService moviesService
 		)
 		{
 			Name = "AppMutations";
@@ -31,16 +32,7 @@ namespace Movies.Server.Gql.App
 				{
 					Movie movie = ctx.GetArgument<Movie>("movie");
 
-					return movieClient.Set(
-						movie.Id,
-						movie.Key,
-						movie.Name,
-						movie.Description,
-						movie.Genres,
-						movie.Rate,
-						movie.Length,
-						movie.Img
-					);
+					return moviesService.Set(movie.Id, movie);
 				}
 			);
 
@@ -56,27 +48,8 @@ namespace Movies.Server.Gql.App
 				resolve: ctx =>
 				{
 					List<Movie> movies = ctx.GetArgument<List<Movie>>("movies");
-					List<Task> tasks = new();
 
-					foreach (var movie in movies)
-					{
-						tasks.Add(movieClient.Set(
-							movie.Id,
-							movie.Key,
-							movie.Name,
-							movie.Description,
-							movie.Genres,
-							movie.Rate,
-							movie.Length,
-							movie.Img
-						));
-					}
-
-					return Task.WhenAll(tasks).ContinueWith(res =>
-					{
-						// Checking for errors so that if any are found, the check short circuits.
-						return !tasks.Any(task => task.IsFaulted);
-					});
+					return moviesService.SetMany(movies);
 				}
 			);
 		}
