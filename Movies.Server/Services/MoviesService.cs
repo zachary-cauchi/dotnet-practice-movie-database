@@ -12,18 +12,29 @@ namespace Movies.Server.Services
 	{
 
 		private readonly IMovieGrainClient _client;
+		private readonly TableStorageService<TableMovie> _tableStorageService;
 
 		public MoviesService
 		(
-			IMovieGrainClient client
+			IMovieGrainClient client,
+			TableStorageService<TableMovie> tableStorageService
 		)
 		{
 			_client = client;
+			_tableStorageService = tableStorageService;
 		}
 
 		public async Task<Movie> Get(string id)
 		{
 			var result = await _client.Get(id).ConfigureAwait(false);
+
+			if (result?.Id == null)
+			{
+				TableMovie tableMovie = (await _tableStorageService.GetEntityAsync(TableMovie._partitionKey, id)).Value;
+
+				return tableMovie;
+			}
+
 			return result;
 		}
 

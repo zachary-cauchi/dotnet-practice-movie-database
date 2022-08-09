@@ -1,17 +1,12 @@
-﻿using Azure;
-using Azure.Data.Tables;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Movies.Contracts.Movies
 {
-	public class Movie : IMovie
+	public interface IMovie
 	{
-
-		[JsonProperty(PropertyName = "id")]
-		public string Id { get; set; }
-
 		[JsonProperty(PropertyName = "key")]
 		public string Key { get; set; }
 
@@ -32,18 +27,5 @@ namespace Movies.Contracts.Movies
 
 		[JsonProperty(PropertyName = "img")]
 		public string Img { get; set; }
-
-		public static implicit operator TableMovie(Movie movie) =>
-			new TableMovie()
-			{
-				RowKey = movie.Id,
-				Key = movie.Key,
-				Name = movie.Name,
-				Description = movie.Description,
-				Genres = movie.Genres,
-				Rate = movie.Rate,
-				Length = movie.Length,
-				Img = movie.Img
-			};
 	}
 }

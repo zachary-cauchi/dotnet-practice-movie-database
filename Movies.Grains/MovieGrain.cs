@@ -25,7 +25,7 @@ namespace Movies.Grains
 		public Task<Movie> Get()
 			=> Task.FromResult(_movie.State);
 
-		public async Task Set(string key, string name, string description, List<string> genres, string rate, string length, string img)
+		public async Task Set(string key, string name, string description, IList<string> genres, string rate, string length, string img)
 		{
 			_movie.State = new Movie()
 			{

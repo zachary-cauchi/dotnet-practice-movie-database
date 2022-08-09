@@ -49,6 +49,7 @@ namespace Movies.Server
 				options.AllowSynchronousIO = true;
 			});
 
+			services.ConfigureTableServices(_configuration);
 			services.AddAppClients();
 			services.AddAppGraphQL();
 			services.AddControllers()

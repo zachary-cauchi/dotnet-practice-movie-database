@@ -22,7 +22,7 @@ namespace Movies.GrainClients
 			return grain.Get();
 		}
 
-		public Task Set(string id, string key, string name, string description, List<string> genres, string rate, string length, string img)
+		public Task Set(string id, string key, string name, string description, IList<string> genres, string rate, string length, string img)
 		{
 			var grain = _grainFactory.GetGrain<IMovieGrain>(id);
 

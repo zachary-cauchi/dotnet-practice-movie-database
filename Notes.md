@@ -83,3 +83,11 @@ New grains may be needed for the following:
 ## Added MoviesService
 
 Added Service layer for handling operations on movies. This should prepare the server for both grains and table management.
+
+## FINALLY figured out Azure Tables
+
+Managed to implement a rudimentary backing store for now that will support storing the movies separately from their grain format.
+This will allow for complex querying of the backing store.
+This will also allow for caching of searched movies should they not be available in grain storage.
+
+Next step is to implement all the endpoints.
