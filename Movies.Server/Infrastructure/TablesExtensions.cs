@@ -8,6 +8,7 @@ namespace Movies.Server.Infrastructure
 {
 	public static class TablesExtensions
 	{
+		
 		public static IServiceCollection ConfigureTableServices(this IServiceCollection services, IConfiguration configuration)
 		{
 			string connectionString = configuration.GetValue<string>("cosmosDb:connectionString");

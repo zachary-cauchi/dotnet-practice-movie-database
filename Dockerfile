@@ -9,6 +9,13 @@ COPY Movies.Core/*.csproj ./Movies.Core/
 COPY Movies.GrainClients/*.csproj ./Movies.GrainClients/
 COPY Movies.Grains/*.csproj ./Movies.Grains/
 COPY Movies.Server/*.csproj ./Movies.Server/
+
+RUN dotnet restore ./Movies.Contracts/Movies.Contracts.csproj
+RUN dotnet restore ./Movies.Core/Movies.Core.csproj
+RUN dotnet restore ./Movies.GrainClients/Movies.GrainClients.csproj
+RUN dotnet restore ./Movies.Grains/Movies.Grains.csproj
+RUN dotnet restore ./Movies.Server/Movies.Server.csproj
+
 RUN dotnet restore
 
 # copy everything else and build app
