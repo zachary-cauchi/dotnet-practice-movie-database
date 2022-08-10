@@ -28,7 +28,7 @@ namespace Movies.Server.Gql
 			if (context == null)
 				throw new ArgumentNullException(nameof(context));
 
-			var documentWriter = context.HttpContext.RequestServices.GetRequiredService<IDocumentWriter>();
+			var documentWriter = context.HttpContext.RequestServices.GetRequiredService<IGraphQLSerializer>();
 
 			var response = context.HttpContext.Response;
 			response.ContentType = ContentType;

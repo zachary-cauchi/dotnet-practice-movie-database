@@ -48,7 +48,7 @@ namespace Movies.Server.Gql
 				opts.ThrowOnUnhandledException = false;
 
 				if (!string.IsNullOrEmpty(vars))
-					opts.Inputs = vars.ToInputs();
+					opts.Variables = vars.ToInputs();
 			});
 
 			try
