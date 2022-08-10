@@ -41,5 +41,12 @@ namespace Movies.Grains
 
 			await _movie.WriteStateAsync();
 		}
+
+		public async Task Set(Movie movie)
+		{
+			_movie.State = movie;
+
+			await _movie.WriteStateAsync();
+		}
 	}
 }

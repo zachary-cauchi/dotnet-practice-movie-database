@@ -1,4 +1,5 @@
-﻿using Movies.Contracts.Movies;
+﻿using Microsoft.AspNetCore.Mvc;
+using Movies.Contracts.Movies;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -31,6 +32,11 @@ namespace Movies.Server.Services
 			if (result?.Id == null)
 			{
 				TableMovie tableMovie = (await _tableStorageService.GetEntityAsync(TableMovie._partitionKey, id)).Value;
+
+				if (tableMovie?.PartitionKey != null)
+				{
+					await _client.Set(tableMovie);
+				}
 
 				return tableMovie;
 			}

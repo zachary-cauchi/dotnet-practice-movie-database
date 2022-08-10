@@ -28,5 +28,12 @@ namespace Movies.GrainClients
 
 			return grain.Set(key, name, description, genres, rate, length, img);
 		}
+
+		public Task Set(Movie movie)
+		{
+			var grain = _grainFactory.GetGrain<IMovieGrain>(movie.Id);
+
+			return grain.Set(movie);
+		}
 	}
 }

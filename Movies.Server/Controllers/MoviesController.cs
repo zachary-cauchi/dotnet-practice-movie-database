@@ -21,7 +21,7 @@ namespace Movies.Server.Controllers
 
 		[HttpGet("{id}")]
 		public async Task<Movie> Get([FromRoute] string id) =>
-			await _moviesService.Get(id).ConfigureAwait(false);
+			await _moviesService.Get(id);
 
 		[HttpPost("{id}")]
 		public async Task Set(

@@ -9,5 +9,7 @@ namespace Movies.Contracts.Movies
 		Task<Movie> Get();
 
 		Task Set(string key, string name, string description, IList<string> genres, string rate, string length, string img);
+
+		Task Set(Movie movie);
 	}
 }

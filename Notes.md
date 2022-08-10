@@ -91,3 +91,7 @@ This will allow for complex querying of the backing store.
 This will also allow for caching of searched movies should they not be available in grain storage.
 
 Next step is to implement all the endpoints.
+
+## Caveat with grain backing store
+
+If the grain is deleted from the azure table, but the grain is already present in-memory, the azure table does not receive a copy of the existing grain.
