@@ -1,13 +1,14 @@
 ﻿using Azure;
 using Azure.Data.Tables;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Movies.Contracts.Movies
 {
-	public class TableMovie : IMovie, ITableEntity
+	public class TableMovie : ITableEntity
 	{
 		public static readonly string _partitionKey = "movies";
 
@@ -17,8 +18,7 @@ namespace Movies.Contracts.Movies
 		
 		public string Description { get; set; }
 
-		[JsonProperty(PropertyName = "genres")]
-		public IList<string> Genres { get; set; }
+		public string Genres { get; set; }
 		
 		public string Rate { get; set; }
 		
@@ -41,7 +41,7 @@ namespace Movies.Contracts.Movies
 				Key = tableMovie.Key,
 				Name = tableMovie.Name,
 				Description = tableMovie.Description,
-				Genres = tableMovie.Genres,
+				Genres = JsonConvert.DeserializeObject<IList<string>>(tableMovie.Genres),
 				Rate = tableMovie.Rate,
 				Length = tableMovie.Length,
 				Img = tableMovie.Img

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Movies.Contracts.Movies
 {
-	public class Movie : IMovie
+	public class Movie
 	{
 
 		[JsonProperty(PropertyName = "id")]
@@ -40,7 +40,7 @@ namespace Movies.Contracts.Movies
 				Key = movie.Key,
 				Name = movie.Name,
 				Description = movie.Description,
-				Genres = movie.Genres,
+				Genres = JsonConvert.SerializeObject(movie.Genres),
 				Rate = movie.Rate,
 				Length = movie.Length,
 				Img = movie.Img
