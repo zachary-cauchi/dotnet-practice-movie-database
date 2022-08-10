@@ -9,17 +9,9 @@ namespace Movies.Server.Gql.App
 {
 	public class AppGraphQuery : ObjectGraphType
 	{
-		public AppGraphQuery(ISampleGrainClient sampleClient, MoviesService moviesService)
+		public AppGraphQuery(MoviesService moviesService)
 		{
 			Name = "AppQueries";
-
-			Field<SampleDataGraphType>("sample",
-				arguments: new QueryArguments(new QueryArgument<StringGraphType>
-				{
-					Name = "id"
-				}),
-				resolve: ctx => sampleClient.Get(ctx.Arguments["id"].ToString())
-			);
 
 			Field<MovieGraphType>("movie",
 				arguments: new QueryArguments(new QueryArgument<StringGraphType>

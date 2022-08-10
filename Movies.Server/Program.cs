@@ -94,7 +94,7 @@ namespace Movies.Server
 						})
 						 .UseStorage("moviesDatabase", appInfo, ctx, secondaryType, "movies")
 						.ConfigureApplicationParts(parts => parts
-							.AddApplicationPart(typeof(SampleGrain).Assembly).WithReferences()
+							.AddApplicationPart(typeof(MovieGrain).Assembly).WithReferences()
 						)
 						.AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()
 						.UseDashboard(options => { })
